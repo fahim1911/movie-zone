@@ -92,8 +92,8 @@
   /* Grid container for anime cards */
   .anime-grid {
     display: grid;
-    /* Changed to fixed columns for fixed width, use auto-fit to allow columns to adjust based on space */
-    grid-template-columns: repeat(auto-fit, 200px); /* Each card will be 200px wide */
+    /* Auto-fit for responsiveness: each card min 150px, max 1fr */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px; /* Gap between cards */
     justify-content: center; /* Center grid items */
     margin: 20px auto; /* Center the grid itself and add margin */
@@ -113,8 +113,7 @@
     align-items: center;
     padding: 15px; /* Increased padding inside card */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
-    height: 260px; /* Fixed height for consistent card size */
-    width: 200px; /* Fixed width for consistent card size (matching grid column) */
+    min-height: 220px; /* Ensures consistent card height */
     overflow: hidden; /* Hide overflowing content, especially for images */
     position: relative; /* For the "Hindi" tag */
   }
@@ -123,7 +122,7 @@
     box-shadow: 0 8px 25px rgba(0, 242, 255, 0.6); /* More prominent shadow on hover */
   }
   .anime-thumbnail {
-    width: 100%; /* Make thumbnail fill card's width (which is now fixed) */
+    width: 100%;
     height: 150px; /* Fixed height for thumbnails */
     object-fit: cover; /* Ensures image covers the area, cropping if necessary */
     border-radius: 10px;
@@ -141,12 +140,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 1.2; /* Adjust line height for better appearance with fixed height */
-    overflow: hidden; /* Hide overflowing text */
-    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
-    display: -webkit-box; /* For multi-line ellipsis */
-    -webkit-line-clamp: 2; /* Limit to 2 lines, adjust as needed */
-    -webkit-box-orient: vertical;
   }
 
   /* "Language" tag style (example based on the image) */
@@ -256,19 +249,20 @@
     transform: translateY(-3px); /* Lift on hover */
   }
 
-  /* Responsive adjustments - IMPORTANT: These media queries will override the fixed width/height for cards on smaller screens.
-    If you truly want ABSOLUTELY NO CHANGE in card size on any screen, you should remove the .anime-grid and .anime-card
-    rules within these @media blocks. However, this might lead to horizontal scrolling on very small devices.
-    I've left a *minimal* adjustment for the smallest screen to prevent severe overflow.
-  */
+  /* Responsive adjustments */
   @media (max-width: 1200px) {
-    /* If you want fixed 200px cards, leave this block empty for .anime-grid and .anime-card */
+    .anime-grid {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
   }
 
   @media (max-width: 900px) {
-    /* If you want fixed 200px cards, leave this block empty for .anime-grid and .anime-card */
+    .anime-grid {
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 15px;
+    }
     .anime-thumbnail {
-      height: 130px; /* Still responsive for image within card */
+      height: 130px;
     }
     .modal-content {
       max-width: 600px;
@@ -302,9 +296,8 @@
     h1 {
       font-size: 2em;
     }
-    /* Keeping a small adjustment for very small screens to avoid horizontal scroll on cards */
     .anime-grid {
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Allow slight shrinking */
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 10px;
     }
     .anime-thumbnail {
@@ -312,8 +305,7 @@
     }
     .anime-card {
       padding: 10px;
-      min-height: 230px; /* Adjust min-height */
-         width: 180px; /* Match minmax width */
+      min-height: 180px;
     }
     .anime-title {
       font-size: 0.9rem;
@@ -343,7 +335,7 @@
       font-size: 1.8em;
     }
     .anime-grid {
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Even smaller for mobile */
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       gap: 8px;
     }
     .anime-thumbnail {
@@ -351,8 +343,7 @@
     }
     .anime-card {
       padding: 8px;
-      min-height: 180px; /* Adjust min-height */
-         width: 150px; /* Match minmax width */
+      min-height: 150px;
     }
     .anime-title {
       font-size: 0.8rem;
@@ -452,7 +443,7 @@
 
   function filterAnime() {
     const searchTerm = searchInput.value.toLowerCase();
-    filteredAnimeList = animeList.filter(anime => 
+    filteredAnimeList = animeList.filter(anime => 
       anime.title.toLowerCase().includes(searchTerm)
     );
     renderAnime(filteredAnimeList);
@@ -463,4 +454,4 @@
 </script>
 
 </body>
-</html>
+</html> 
